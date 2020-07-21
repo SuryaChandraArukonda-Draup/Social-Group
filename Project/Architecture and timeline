@@ -1,3 +1,4 @@
+# rough architecture for social group, will change once I begin.
 ~/ Project
     |--main.py
     |-- database
@@ -19,5 +20,11 @@
     |--inactive members
     |--daily feed
     |--datadump
+    
+   
+   
+ 
+ 
+ 
 
 
