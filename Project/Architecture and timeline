@@ -1,0 +1,22 @@
+~/ Project
+    |--main.py
+    |-- database
+        |--db.py
+        |--models.py
+    |-- resources
+        |--auth.py
+        |--errors.py
+        |--routes.py
+    |--Create_group
+        |--public
+        |--private
+    |--admins
+    |--moderators
+    |--members
+    |--creating_post
+    |--commenting
+    |--post_notification
+    |--inactive members
+    |--daily feed
+
+
