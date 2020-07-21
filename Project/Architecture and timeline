@@ -1,4 +1,8 @@
 # rough architecture for social group, will change once I begin.
+
+#Tech Stack: Python, Flask, Mongo, and RQ
+
+
 ~/ Project
     |--main.py
     |-- database
