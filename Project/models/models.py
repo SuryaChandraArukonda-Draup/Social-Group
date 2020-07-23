@@ -2,7 +2,6 @@ from Project.config.config import db
 
 
 class Permissions(db.Document):
-    # id
     name = db.StringField(required=True, unique=True)
 
 
@@ -12,14 +11,12 @@ class Roles(db.Document):
 
 
 class Group(db.Document):
-    # id
     name = db.StringField(required=True, max_length=30)
     visibility = db.StringField(default='public')
     users = db.DictField()    # all the users in group {'user_id':'role_id'}
 
 
 class User(db.Document):
-    # id
     name = db.StringField(required=True, max_length=25)
     email = db.StringField(required=True, unique=True)
     groups = db.ListField(db.StringField())      # ids of groups user is connected
@@ -28,7 +25,6 @@ class User(db.Document):
 
 
 class Post(db.Document):
-    # id
     user_id = db.StringField(required=True)
     group_id = db.StringField(required=True)
     content = db.StringField(required=True, max_length=200)
@@ -36,7 +32,6 @@ class Post(db.Document):
 
 
 class Comment(db.Document):
-    # id
     user_id = db.StringField(required=True)
     post_id = db.StringField(required=True)
     content = db.StringField(required=True, max_length=80)
