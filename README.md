@@ -1,5 +1,12 @@
 # Social-Group
 
+#Work Completed:
+
+1. Formulation of program architecture.
+2. done with the app configuration and URL for API requests.		
+3. Implemented the document schema.						
+
+Monday's work: implementing authentication and authorization.
 
 /Project #The main app folder
 
