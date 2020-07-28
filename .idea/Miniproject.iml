@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
+    <content url="file://$MODULE_DIR$/../Social-Group">
       <sourceFolder url="file://$MODULE_DIR$/Project" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/config" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/datadump" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/models" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/auth" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/url" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/errors" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/ids" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Project/run" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/config" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/datadump" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/models" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/auth" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/url" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/errors" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/view" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Social-Group/run" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
