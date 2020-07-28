@@ -4,9 +4,10 @@
 
 1. Formulation of program architecture.
 2. done with the app configuration and URL for API requests.		
-3. Implemented the document schema.						
+3. Implemented the document schema.	
+4. Implemented addtogroup and removegroup functions.
 
-Monday's work: implementing authentication and authorization.
+Currently working on: time delta.
 
 /Project #The main app folder
 
@@ -22,11 +23,8 @@ app.py		#social group application
 	config.py 		#this config file makes connection to the database
 /view
 	__init__.py
-	mail.py			
-	comment.py		#files containing user services
-	post.py
+	view.py		#files containing user services
 	
-
 /url
 	url.py			#assigning the routes
 /auth
