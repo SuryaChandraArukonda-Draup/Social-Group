@@ -5,9 +5,9 @@
 1. Formulation of program architecture.
 2. done with the app configuration and URL for API requests.		
 3. Implemented the document schema.	
-4. Implemented addtogroup and removegroup functions.
+4. Implemented queueing mechanisms.
 
-Currently working on: time delta.
+Currently working on: data dump.
 
 /Project #The main app folder
 
