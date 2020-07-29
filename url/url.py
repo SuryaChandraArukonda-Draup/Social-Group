@@ -1,11 +1,13 @@
-from view.view import Role1, Group1, User1, Post1, Comment1, AddToGroup1, RemoveGroup1
+from view.view import Group1, User1, Post1, Comment1, AddToGroup1, RemoveUserGroup1, DeletePost1, DeleteComment1, ReadGroup1
 
 
 def initialize_routes(api):
-    api.add_resource(Role1, '/api/role/<id>')
-    api.add_resource(Group1, '/api/<id>/group')
-    api.add_resource(User1, '/api/user')
-    api.add_resource(Post1, '/api/Group/<id>/post')
-    api.add_resource(Comment1, '/api/<gid>/<pid>/comment')
-    api.add_resource(AddToGroup1, '/api/atg/<id>')  # atg = AddToGroup
-    api.add_resource(RemoveGroup1, '/api/rfg/<id>')  # rfg = RemoveFromGroup
+    api.add_resource(User1, '/api/add-user')
+    api.add_resource(Group1, '/api/group')
+    api.add_resource(AddToGroup1, '/api/group/<group_id>/add')
+    api.add_resource(RemoveUserGroup1, '/api/group/<group_id>/remove')
+    api.add_resource(ReadGroup1, '/api/group/<group_id>/read')
+    api.add_resource(Post1, '/api/group/<group_id>/post/add')
+    api.add_resource(DeletePost1, '/api/group/<group_id>/post/<post_id>/delete')
+    api.add_resource(Comment1, '/api/group/<group_id>/post/<post_id>/comment/add')
+    api.add_resource(DeleteComment1, '/api/group/<group_id>/comment/<comment_id>/delete')
