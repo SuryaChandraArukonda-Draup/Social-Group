@@ -2,7 +2,7 @@ from view.view import Group1, User1, Post1, Comment1, AddToGroup1, RemoveUserGro
 
 
 def initialize_routes(api):
-    api.add_resource(User1, '/api/add-user')
+    api.add_resource(User1, '/api/user')
     api.add_resource(Group1, '/api/group')
     api.add_resource(AddToGroup1, '/api/group/<group_id>/add')
     api.add_resource(RemoveUserGroup1, '/api/group/<group_id>/remove')

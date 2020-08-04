@@ -6,19 +6,19 @@ class SchemaValidationError(Exception):
     pass
 
 
-class MovieAlreadyExistsError(Exception):
+class UserAlreadyExistsError(Exception):
     pass
 
 
-class UpdatingMovieError(Exception):
+class UpdatingUserError(Exception):
     pass
 
 
-class DeletingMovieError(Exception):
+class DeletingUserError(Exception):
     pass
 
 
-class MovieNotExistsError(Exception):
+class UserNotExistsError(Exception):
     pass
 
 

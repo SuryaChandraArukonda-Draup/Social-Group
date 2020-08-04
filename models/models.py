@@ -3,19 +3,15 @@ import datetime
 
 
 class User(db.Document):
-    name = db.StringField(required=True, max_length=20)
+    username = db.StringField(required=True, max_length=20)
+    password = db.StringField(required=True, max_length=15)
     email = db.StringField(required=True)
-
-
-class Roles(db.Document):
-    name = db.StringField(required=True, unique=True, max_length=20)
-    permissions = db.ListField(db.StringField())
 
 
 class Group(db.Document):
     name = db.StringField(required=True, max_length=30)
     visibility = db.StringField(default='public')
-    role_dict = db.DictField()  # fill with {'user_id':'role'}
+    role_dict = db.DictField(required=True)  # fill with {'user_id':'role'}
     date_created = db.DateTimeField(default=datetime.datetime.now())
     last_active_dict = db.DictField()  # fill with {'user_id':'last active time'}
 

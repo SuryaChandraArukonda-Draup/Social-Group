@@ -14,3 +14,6 @@ app.config['MONGODB_SETTINGS'] = {
 
 initialize_db(app)
 initialize_routes(api)
+
+
+app.run(debug=True)

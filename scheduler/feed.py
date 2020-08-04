@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from mongoengine import Q
-from models.models import Group,Post, User
+from models.models import Group, Post, User
 from mail.mail import send_email
 
 
@@ -18,5 +18,5 @@ def dailyfeed():
             if access == 'ADMIN' or access == 'MODERATOR':
                 user = User.objects(id=user_id)
                 recipients.append(user)
-        # send_email(subject, sender, recipients, text_body)
-        send_email('Daily feed', 'socialgroup.co.in', recipients, content)
+        # send_email(recipients, text_body), structure of send_email
+        send_email(recipients, content)

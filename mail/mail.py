@@ -1,18 +1,9 @@
-from threading import Thread
-from flask_mail import Message
-from app import app
-from app import mail
+import smtplib
 
 
-def send_async_email(app, msg):
-    with app.app_context():
-        try:
-            mail.send(msg)
-        except:
-            print("[MAIL SERVER] not working")
-
-
-def send_email(subject, sender, recipients, text_body):
-    msg = Message(subject, sender=sender, recipients=recipients)
-    msg.body = text_body
-    Thread(target=send_async_email, args=(app, msg)).start()
+def send_email(mail, content):
+    server = smtplib.SMTP('smtp.gmail.com', 27017)
+    server.starttls()
+    server.login("emailid", "password")
+    server.sendmail("senders email", mail, content)
+    server.quit()
