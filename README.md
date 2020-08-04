@@ -1,74 +1,71 @@
 # Social-Group
+Tech Stack: Python, Flask, Mongodb, and RQ
 
-#Work Completed:
+### Description:
 
-1. Formulation of program architecture.  (Thursday)
-2. done with the app configuration and URL for API requests.	(Friday)	
-3. Implemented the document schema.	(Monday)
-4. Implemented queueing mechanisms.  	(Tuesday)
-5. Data Dump				(wenesday and Thursday)
+A platform to connect with people and share your thoughts. Let's you create a social group with role based access control.
 
-Currently working on: login and password.
+### Prerequisites:
 
-/Project #The main app folder
+Python 3.6 or above:
 
-run.py		#gets the application running
-app.py		#social group application
-/error
-	error.py	#file containing the error response
-/model
-	__init__.py
-	models.py		#use data through python objects 
-/config
-	__init__.py
-	config.py 		#this config file makes connection to the database
-/view
-	__init__.py
-	view.py		#files containing user services
-	
-/url
-	url.py			#assigning the routes
-/auth
-	auth.py			#assigning authorisation
+    1. Flask and other Python libraries with latest versions.
+    2. Mongodb installed with a local database connection established.
+    3. Redis Queue installed with a local connection established.
 
-/taskqueue			#Queued tasks
-	feed.py			#functions handles the daily feed for
-	inactive.py		#delete the inactive members
-	notify.py		#daily notification for posts
-/datadump
-	__init__.py
-	dump.py
-  
-  
-#Mongodb schema
+### Installation:
 
-Entities: - Permission * ID * Name
+    1. Clone the repository.
+    2. Install all the prerequisite files.
+    3. Run the app.py file using a python interpreter.
 
-- Role
-    * ID
-    * NAME
-    * Permission[]
-- User
-    * ID
-    * NAME
-    * email
-    * groups =[]
-* posts = []
-* comments = []
-- GROUP
-    * ID
-    * Name
-    * Users {} with id and role
-    * Visibilty = PUBLIC | PRIVATE
-- POST
-    * ID
-    * UserId
-    * GroupId
-    * approval boolean
-    * content
 
-- Comment
-    * Id
-    * PostId
-    * userId
-    * content
+# List of APIs:
+
+    1. api.add_resource(User1, '/api/user')
+
+        Example for body: { "name":"surya", "password":"chandra", "email":"surya@gmail.com" }
+
+        Note : Once the user is creted, authorisation is needed in all the APIs. Use your username and password in the authorisation tab before submitting the request.
+    
+    2. api.add_resource(Group1, '/api/group')
+    
+        body { "user_id":"", "name":"group", "visibility":"private" }
+    
+    3. api.add_resource(AddToGroup1, '/api/group/<group_id>/add')
+    
+        body { "user_id":"", "new_user":{"arin":"MEMBER"} }
+    
+    4. api.add_resource(RemoveUserGroup1, '/api/group/<group_id>/remove')
+
+        body { "user_id":"", "del_user_id":"" }
+    
+    5. api.add_resource(ReadGroup1, '/api/group/<group_id>/read')
+    
+        body { "user_id":"" }
+    
+    6. api.add_resource(Post1, '/api/group/<group_id>/post/add')
+    
+        body { "user_id":"", "content":"my first post" }
+    
+    7. api.add_resource(DeletePost1, '/api/group/<group_id>/post/<post_id>/delete')
+    
+    body { "user_id":"" }
+    
+    8. api.add_resource(Comment1, '/api/group/<group_id>/post/<post_id>/comment/add')
+    
+        body { "user_id":"", "content":"my first comment" }
+    
+    9. api.add_resource(DeleteComment1, '/api/group/<group_id>/comment/<comment_id>/delete')
+
+        body { "user_id":"" }
+    
+    
+# Data dump
+
+The data dump can be done by running the functions from the data dump directory. In the module go to the file dump.py and run the function one by one.
+
+    1. So, first make users say 15000.
+    2. Then make groups say 300 using create_group function and select users and group such that users % groups == 0. So, for this case 15000/300 gives 50 users in each group.
+    3. Then run the create_user to group function which distributes all the users in these group equally.
+    4. Finally run the add_post_comment function which makes a post and comment from each user.
