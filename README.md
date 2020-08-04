@@ -2,12 +2,13 @@
 
 #Work Completed:
 
-1. Formulation of program architecture.
-2. done with the app configuration and URL for API requests.		
-3. Implemented the document schema.	
-4. Implemented addtogroup and removegroup functions.
+1. Formulation of program architecture.  (Thursday)
+2. done with the app configuration and URL for API requests.	(Friday)	
+3. Implemented the document schema.	(Monday)
+4. Implemented queueing mechanisms.  	(Tuesday)
+5. Data Dump				(wenesday and Thursday)
 
-Currently working on: time delta.
+Currently working on: login and password.
 
 /Project #The main app folder
 
