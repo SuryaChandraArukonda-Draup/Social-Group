@@ -9,12 +9,12 @@ from werkzeug.security import generate_password_hash
 
 def create_user(n):
     for i in range(n):
-        name = ''.join([random.choice(string.ascii_letters) for k in range(8)])
-        password = generate_password_hash(''.join([random.choice(string.ascii_uppercase + string.digits) for k in range(6)]))
+        username = ''.join([random.choice(string.ascii_letters) for k in range(8)])
+        password = generate_password_hash(''.join([random.choice(string.digits) for k in range(2)]))
         number = randint(0, n)
-        email = "{name}{number}@gmail.com".format(name=name, number=number)
+        email = "{username}{number}@gmail.com".format(username=username, number=number)
 
-        User(name=name, password=password, email=email).save()
+        User(username=username, password=password, email=email).save()
 
 
 def create_group(n):
@@ -23,11 +23,7 @@ def create_group(n):
 
         name = ''.join([random.choice(string.ascii_letters) for k in range(10)])
         # first member is the admin
-        Group(
-            name=name,
-            visibility=random.choice(accessibility)
-            # role_dict={str(user_id):'ADMIN'}
-        ).save()
+        Group(name=name, visibility=random.choice(accessibility)).save()  # role_dict={str(user_id):'ADMIN'}
 
 
 def add_user_group():
@@ -37,16 +33,21 @@ def add_user_group():
     roles = ['ADMIN', 'MODERATOR', 'MEMBER']
     for user in users:
         user_list.append(str(user.id))
-
-    dist = [50] * 300
+    total = len(user_list)
+    distribution = []
+    for val in range(0, total, 300):
+        if total - val > 300:
+            distribution.append(300)
+        else:
+            distribution.append(total - val)
     in_put = iter(user_list)
-    out_put = [list(islice(in_put, ele)) for ele in dist]
+    out_put = [list(islice(in_put, ele)) for ele in distribution]
     groups = Group.objects
     count = 0
     for group in groups:
         temp_dict = {}
-        for value in out_put[count]:
-            temp_dict[value] = random.choice(roles)
+        for val in out_put[count]:
+            temp_dict[val] = random.choice(roles)
         group.update(set__role_dict=temp_dict)
         count += 1
 

@@ -4,14 +4,14 @@ import datetime
 
 class User(db.Document):
     username = db.StringField(required=True, max_length=20)
-    password = db.StringField(required=True, max_length=15)
+    password = db.StringField(required=True, max_length=100)
     email = db.StringField(required=True)
 
 
 class Group(db.Document):
     name = db.StringField(required=True, max_length=30)
     visibility = db.StringField(default='public')
-    role_dict = db.DictField(required=True)  # fill with {'user_id':'role'}
+    role_dict = db.DictField()  # fill with {'user_id':'role'}
     date_created = db.DateTimeField(default=datetime.datetime.now())
     last_active_dict = db.DictField()  # fill with {'user_id':'last active time'}
 
@@ -32,6 +32,14 @@ class Comment(db.Document):
     date_created = db.DateTimeField(default=datetime.datetime.now())
 
 
+class DeletedUsers(db.Document):
+    group_id = db.ReferenceField('Group')
+    deleted_user_ids = db.StringField()
+
+
+class SaveLogs(db.Document):
+    group_id = db.ReferenceField('Group')
+    message = db.ListField(db.StringField())
 
 
 

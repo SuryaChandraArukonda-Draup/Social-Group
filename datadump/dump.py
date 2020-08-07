@@ -3,10 +3,10 @@ from datadump.create_data import create_user, create_group, add_user_group, add_
 connect("SocialGroup")
 
 """ This function is used to create the number of users with number of users as argument"""
-# create_user(15000)
+create_user(1500)
 
 """ This function is used to create the groups with number of groups as argument"""
-# create_group(300)
+create_group(30)
 
 """ This function is used to add the user to the group and here number 
     of users are equally distributed in each group"""
