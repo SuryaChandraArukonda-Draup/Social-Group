@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, Response
 from models.models import User, Group, Comment
 from flask_restful import Resource
 from bson import ObjectId
@@ -7,6 +7,7 @@ from mail.mail import send_email
 from config.config import queue
 from auth.auth import auth
 from que_task.que import printhello
+from constants.constants import A, MD
 
 # create comment
 
@@ -50,12 +51,57 @@ class DeleteCommentAPI(Resource):
         try:
             role = group.role_dict[user_id]
             comments = Comment.objects(user_id=user_id)
-            if comment in comments or role == 'ADMIN' or role == 'MODERATOR':
+            if comment in comments or role == A or role == MD:
                 comment.delete()
                 return "Comment deleted", 200
             else:
                 return "You don't have the permission required", 200
         except:
             return "You ain't a member of the group", 200
+
+
+class GetCommentAPI(Resource):
+    @auth.login_required
+    def get(self, cid, gid):
+        user = request.authorization
+        uid = User.objects.get(username=user['username'])
+        uid = str(uid.id)
+
+        try:
+            group = Group.objects.get(id=gid)
+            if uid in group.role_dict:
+                comment = Comment.objects(id=cid).to_json()
+                return Response(comment, mimetype="application/json", status=200)
+            else:
+                return "You are not member of the group", 500
+        except:
+            return "Invalid group or comment id", 500
+
+
+class EditCommentAPI(Resource):
+    # body will have change_comment_name  : { "change_comment_name" : "comment"}
+    @auth.login_required
+    def put(self, gid, cid):
+        u = request.authorization  # this gives dict
+        user = User.objects.get(username=u['username'])  # this gives user object
+        uid = str(user.id)  # this gives the admin id in string format
+        body = request.get_json()
+        try:
+            group = Group.objects.get(id=gid)
+            if uid in group.role_dict:
+                comment = Comment.objects.get(id=cid).to_json()
+
+                comment.update(set__content=body['change_comment_content'])
+
+                temp_dict = group.last_active_dict
+                temp_dict[uid] = datetime.now()
+                group.update(set__last_active_dict=temp_dict)
+
+                return "Post content changed successfully", 200
+            else:
+                return "You are not a member if this group", 500
+        except:
+            return "Post doesn't belong this group", 500
+
 
 

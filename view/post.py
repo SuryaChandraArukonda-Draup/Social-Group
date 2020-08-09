@@ -1,9 +1,13 @@
-from flask import request
+from flask import request, Response
 from models.models import Group, Post, User
 from flask_restful import Resource
 from bson import ObjectId
 from datetime import datetime
 from auth.auth import auth
+from constants.constants import A, MD
+from que_task.que import printhello
+from mail.mail import send_email
+from config.config import queue
 
 
 # create post
@@ -30,6 +34,12 @@ class PostAPI(Resource):     # body : { "content" : "post"}
             temp_dict[user_id] = datetime.now()
             group.update(set__last_active_dict=temp_dict)
 
+            '''
+            content = "{name} wants to put a post, please accept his request!".format(name=user.username)
+            queue.enqueue(printhello())  # this is just a check that q works
+            queue.enqueue(send_email, user.email, content)
+            '''
+
             return {'post_id': str(post_id)}, 200
         else:
             return "You ain't a member of this group", 200
@@ -46,10 +56,57 @@ class DeletePostAPI(Resource):     # body contains user_id and only post owner(m
         try:
             role = group.role_dict[user_id]
             posts = Post.objects(user_id=user_id)
-            if post in posts or role == 'ADMIN' or role == 'MODERATOR':
+            if post in posts or role == A or role == MD:
                 post.delete()
                 return "Post deleted", 200
             else:
                 return "You don't have the permission to post", 200
         except:
             return "You are no longer member of this group", 200
+
+
+class GetPostAPI(Resource):
+    @auth.login_required
+    def get(self, gid, pid):
+        user = request.authorization
+        uid = User.objects.get(username=user['username'])
+        uid = str(uid.id)
+
+        try:
+            group = Group.objects.get(id=gid)
+            if uid in group.role_dict:
+
+                post = Post.objects.get(id=pid).to_json()
+
+                return Response(post, mimetype="application/json", status=200)
+
+            else:
+                return "You are not member of the group", 500
+        except:
+            return "Invalid group or post id", 500
+
+
+class EditPostAPI(Resource):
+    # body will have change_post_name  : { "change_post_name" : "post"}
+    @auth.login_required
+    def put(self, gid, pid):
+        admin = request.authorization  # this gives dict
+        admin_name = User.objects.get(username=admin['username'])  # this gives user object
+        uid = str(admin_name.id)  # this gives the admin id in string format
+        body = request.get_json()
+        try:
+            group = Group.objects.get(id=gid)
+            if uid in group.role_dict:
+                post = Post.objects.get(id=pid).to_json()
+
+                post.update(set__content=body['change_post_content'])
+
+                temp_dict = group.last_active_dict
+                temp_dict[uid] = datetime.now()
+                group.update(set__last_active_dict=temp_dict)
+
+                return "Post content changed successfully", 200
+            else:
+                return "You are not a member if this group", 200
+        except:
+            return "Post doesn't belong this group", 200

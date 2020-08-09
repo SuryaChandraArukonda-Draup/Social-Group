@@ -1,0 +1,10 @@
+1. make group name unique --- done
+2. add role change --- done
+3. add to group can be done any role  ---- done
+4. admin and moderator should get the approval request for post of member
+5. 8.b  --- done
+6. delete group and scheduler
+7. constant string of admin in separate file  --- done
+8. email should be unique  --- done
+9. visibility only admin  --- done
+10. for a post retrieve all comments

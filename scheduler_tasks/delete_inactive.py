@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from models.models import Group, SaveLogs
 from mongoengine import connect
+from constants.constants import A
 
 
 def inactive_users():
@@ -16,7 +17,7 @@ def inactive_users():
         temp_last_active_dict.update(group.last_active_dict)
         message_list = []
         for user_id, last_active in group.last_active_dict.items():
-            if last_active < present_time - timedelta(minutes=1) and group.role_dict[user_id] != 'ADMIN':
+            if last_active < present_time - timedelta(minutes=1) and group.role_dict[user_id] != A:
                 message = "{name} got deleted due to inactivity".format(name=user_id)
                 message_list.append(message)
 

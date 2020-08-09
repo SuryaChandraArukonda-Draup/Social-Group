@@ -35,9 +35,9 @@ def add_user_group():
         user_list.append(str(user.id))
     total = len(user_list)
     distribution = []
-    for val in range(0, total, 300):
-        if total - val > 300:
-            distribution.append(300)
+    for val in range(0, total, 30):
+        if total - val > 30:
+            distribution.append(30)
         else:
             distribution.append(total - val)
     in_put = iter(user_list)

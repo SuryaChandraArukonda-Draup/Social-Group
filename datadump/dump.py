@@ -11,9 +11,9 @@ create_group(30)
 """ This function is used to add the user to the group and here number 
     of users are equally distributed in each group"""
 
-# add_user_group()
+add_user_group()
 
 """ This function is used to add posts and comments"""
 
-# add_post_comment()
+add_post_comment()
 

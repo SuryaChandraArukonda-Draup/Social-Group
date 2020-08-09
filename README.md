@@ -30,35 +30,35 @@ Python 3.6 or above:
     
     2. api.add_resource(Group1, '/api/group')
     
-        body { "user_id":"", "name":"group", "visibility":"private" }
+        body { "name":"group", "visibility":"private" }
     
     3. api.add_resource(AddToGroup1, '/api/group/<group_id>/add')
     
-        body { "user_id":"", "new_user":{"arin":"MEMBER"} }
+        body { "new_user":{"arin":"MEMBER"} }
     
     4. api.add_resource(RemoveUserGroup1, '/api/group/<group_id>/remove')
 
-        body { "user_id":"", "del_user_id":"" }
+        body { "del_user_id":"" }
     
     5. api.add_resource(ReadGroup1, '/api/group/<group_id>/read')
     
-        body { "user_id":"" }
+        no body needed 
     
     6. api.add_resource(Post1, '/api/group/<group_id>/post/add')
     
-        body { "user_id":"", "content":"my first post" }
+        body { "content":"my first post" }
     
     7. api.add_resource(DeletePost1, '/api/group/<group_id>/post/<post_id>/delete')
     
-    body { "user_id":"" }
+        no body needed
     
     8. api.add_resource(Comment1, '/api/group/<group_id>/post/<post_id>/comment/add')
     
-        body { "user_id":"", "content":"my first comment" }
+        body { "content":"my first comment" }
     
     9. api.add_resource(DeleteComment1, '/api/group/<group_id>/comment/<comment_id>/delete')
 
-        body { "user_id":"" }
+        no body needed
     
     
 # Data dump

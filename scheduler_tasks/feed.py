@@ -4,6 +4,7 @@ from rq import Queue
 from redis import Redis
 from models.models import Group, Post, User
 from mail.mails import send_mail
+from constants.constants import A, MD
 
 sch_queue = Queue('test', connection=Redis())
 
@@ -24,7 +25,7 @@ def dailyfeed():
             content = '{total} posts were put today'.format(total=total)
             recipients = []
             for user_id, access in group.role_dict.items():
-                if access == 'ADMIN' or access == 'MODERATOR':
+                if access == A or access == MD:
                     user = User.objects.get(id=user_id)
                     recipients.append(user.email)
             sch_queue.enqueue(send_mail, recipients, content)
