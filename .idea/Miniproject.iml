@@ -10,13 +10,9 @@
       <sourceFolder url="file://$MODULE_DIR$/url" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/exceptions" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/view" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/run" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mail" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/queue_task" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/scheduler_tasks" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/logging" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/que_task" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/constants" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
