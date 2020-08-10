@@ -1,5 +1,5 @@
 from flask import request, Response
-from models.models import User, Group, Comment
+from models.models import User, Group, Comment, Post
 from flask_restful import Resource
 from bson import ObjectId
 from datetime import datetime
@@ -9,10 +9,11 @@ from auth.auth import auth
 from que_task.que import printhello
 from constants.constants import A, MD
 
+
 # create comment
 
 
-class CommentAPI(Resource):   # body contains { "content" : "comment"}
+class CommentAPI(Resource):  # body contains { "content" : "comment"}
     @auth.login_required
     def post(self, gid, pid):
         u = request.authorization  # this gives dict
@@ -21,22 +22,24 @@ class CommentAPI(Resource):   # body contains { "content" : "comment"}
         body = request.get_json()
         user = User.objects.get(id=user_id)
         group = Group.objects.get(id=gid)
-        if user_id in group.role_dict:
-            comment = Comment(**body, post_id=ObjectId(pid))
-            comment.date_created = datetime.now()
-            comment.save()
-            # update last active status for user
-            temp_dict = group.last_active_dict
-            temp_dict[user_id] = datetime.now()
-            group.update(set__last_active_dict=temp_dict)
-            content = "{name} has posted a comment today".format(name=user.username)
-            queue.enqueue(printhello())  # this is just a check that q works
-            queue.enqueue(send_email, user.email, content)
-            # queue.enqueue(send_email(user.email, content))
-            # send_email(user.email, content)
-            return {'comment_id': str(comment.id)}, 200
-        else:
-            return "You ain't a member of this group", 200
+        post = Post.objects.get(id=pid)
+        if post.approval:
+            if user_id in group.role_dict:
+                comment = Comment(**body, post_id=ObjectId(pid))
+                comment.date_created = datetime.now()
+                comment.save()
+                # update last active status for user
+                temp_dict = group.last_active_dict
+                temp_dict[user_id] = datetime.now()
+                group.update(set__last_active_dict=temp_dict)
+                content = "{name} has posted a comment today".format(name=user.username)
+                queue.enqueue(printhello())  # this is just a check that q works
+                queue.enqueue(send_email, user.email, content)
+                # queue.enqueue(send_email(user.email, content))
+                # send_email(user.email, content)
+                return {'comment_id': str(comment.id)}, 200
+            else:
+                return "You ain't a member of this group", 200
 
 
 class DeleteCommentAPI(Resource):
@@ -89,7 +92,7 @@ class EditCommentAPI(Resource):
         try:
             group = Group.objects.get(id=gid)
             if uid in group.role_dict:
-                comment = Comment.objects.get(id=cid).to_json()
+                comment = Comment.objects.get(id=cid)
 
                 comment.update(set__content=body['change_comment_content'])
 
@@ -102,6 +105,3 @@ class EditCommentAPI(Resource):
                 return "You are not a member if this group", 500
         except:
             return "Post doesn't belong this group", 500
-
-
-

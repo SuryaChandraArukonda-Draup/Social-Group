@@ -1,6 +1,6 @@
 from view.user import SignUpAPI, GetUserAPI, DeleteUserAPI, EditUserAPI
 from view.group import GroupAPI, AddToGroupAPI, RemoveUserGroupAPI, ReadGroupAPI, GetGroupAPI, DeleteGroupAPI, EditGroupAPI, ChangeRoleAPI
-from view.post import PostAPI, DeletePostAPI, GetPostAPI, EditPostAPI
+from view.post import PostAPI, DeletePostAPI, GetPostAPI, EditPostAPI, ApprovePostAPI, ReadPostAPI
 from view.comment import CommentAPI, DeleteCommentAPI, GetCommentAPI, EditCommentAPI
 
 
@@ -33,3 +33,6 @@ def initialize_routes(api):
     api.add_resource(RemoveUserGroupAPI, '/api/group/<gid>/remove')
 
     api.add_resource(ReadGroupAPI, '/api/group/<gid>/read')
+    api.add_resource(ReadPostAPI, '/api/group/<gid>/post/<pid>/read')
+
+    api.add_resource(ApprovePostAPI, '/api/group/<gid>/post/<pid>/approve')

@@ -69,7 +69,7 @@ class RemoveUserGroupAPI(Resource):
         try:
             if group.role_dict[uid] == A:
                 del_user = body['del_user_id']
-                DeletedUsers(group_id=gid, deleted_user_ids=body['del_user_id']).save()
+                # DeletedUsers(group_id=gid, deleted_user_ids=body['del_user_id']).save()
                 role_dict = group.role_dict
                 last_active_dict = group.last_active_dict
                 for key in list(role_dict):
@@ -100,10 +100,18 @@ class ReadGroupAPI(Resource):
 
         if group.visibility == 'public':
             posts = Post.objects(group_id=gid).to_json()
-            return Response(posts, mimetype="application/json", status=200)
+            for post in posts:
+                if post.approval:
+                    return Response(post, mimetype="application/json", status=200)
+                else:
+                    return ""
         elif user_id in group.role_dict:
             posts = Post.objects(group_id=gid).to_json()
-            return Response(posts, mimetype="application/json", status=200)
+            for post in posts:
+                if post.approval:
+                    return Response(post, mimetype="application/json", status=200)
+                else:
+                    return ""
         else:
             return "You do not have the required access", 200
 

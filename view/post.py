@@ -1,5 +1,5 @@
 from flask import request, Response
-from models.models import Group, Post, User
+from models.models import Group, Post, User, Comment
 from flask_restful import Resource
 from bson import ObjectId
 from datetime import datetime
@@ -48,7 +48,7 @@ class PostAPI(Resource):     # body : { "content" : "post"}
 
             return {'post_id': str(post_id)}, 200
         else:
-            return "You ain't a member of this group", 200
+            return "You ain't a member of this group", 500
 
 
 class DeletePostAPI(Resource):     # body contains user_id and only post owner(member), admin or moderator can delete
@@ -66,9 +66,9 @@ class DeletePostAPI(Resource):     # body contains user_id and only post owner(m
                 post.delete()
                 return "Post deleted", 200
             else:
-                return "You don't have the permission to post", 200
+                return "You don't have the permission to post", 500
         except:
-            return "You are no longer member of this group", 200
+            return "You are no longer member of this group", 500
 
 
 class GetPostAPI(Resource):
@@ -103,7 +103,7 @@ class EditPostAPI(Resource):
         try:
             group = Group.objects.get(id=gid)
             if uid in group.role_dict:
-                post = Post.objects.get(id=pid).to_json()
+                post = Post.objects.get(id=pid)
 
                 post.update(set__content=body['change_post_content'])
 
@@ -113,6 +113,50 @@ class EditPostAPI(Resource):
 
                 return "Post content changed successfully", 200
             else:
-                return "You are not a member if this group", 200
+                return "You are not a member if this group", 500
         except:
-            return "Post doesn't belong this group", 200
+            return "Post doesn't belong this group", 500
+
+
+class ApprovePostAPI(Resource):
+    # body will have change_post_name  : { "approval" : "True"}
+    @auth.login_required
+    def put(self, gid, pid):
+        admin = request.authorization  # this gives dict
+        admin_name = User.objects.get(username=admin['username'])  # this gives user object
+        uid = str(admin_name.id)  # this gives the admin id in string format
+        body = request.get_json()
+        try:
+            group = Group.objects.get(id=gid)
+            role = group.role_dict[uid]
+            if role == A or role == MD:
+                post = Post.objects.get(id=pid)
+
+                post.update(set__approval=body['approval'])
+
+                temp_dict = group.last_active_dict
+                temp_dict[uid] = datetime.now()
+                group.update(set__last_active_dict=temp_dict)
+
+                return "Post approval changed successfully", 200
+            else:
+                return "You are not an admin or moderator of this group", 500
+        except:
+            return "Post doesn't belong this group", 500
+
+
+class ReadPostAPI(Resource):
+    # read group contents based on access offered by group i.e. public or private
+    @auth.login_required
+    def get(self, gid, pid):
+        user = request.authorization  # this gives dict
+        uid = User.objects.get(username=user['username'])  # this gives user object
+        group = Group.objects.get(id=gid)
+        post = Post.objects.get(id=pid)
+        if gid in post.group_id:
+            if post.approval:
+                comments = Comment.objects(post_id=pid).to_json()
+                return Response(comments, mimetype="application/json", status=200)
+
+        else:
+            return "You do not have the required access", 200

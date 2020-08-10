@@ -3,7 +3,7 @@ import datetime
 
 
 class User(db.Document):
-    username = db.StringField(required=True, max_length=20)
+    username = db.StringField(required=True, max_length=20)   # , unique=True
     password = db.StringField(required=True, max_length=100)
     email = db.StringField(required=True)  # , unique=True
 
@@ -21,7 +21,7 @@ class Post(db.Document):
     group_id = db.ReferenceField('Group')
     content = db.StringField(required=True, max_length=200)
     # approval is set to true for now
-    approval = db.StringField(Default=True, max_length=10)
+    approval = db.StringField(Default=False, max_length=10)
     date_created = db.DateTimeField(default=datetime.datetime.now())
 
 
