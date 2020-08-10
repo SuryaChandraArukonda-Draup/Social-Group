@@ -17,7 +17,7 @@ class SignUpAPI(Resource):  # body : { "username" : "surya", "password" : "chand
             user_id = user.id
             return {'user_id': str(user_id)}, 200
         except:
-            return "username should be unique try again", 500
+            return "username and email should be unique, try again", 500
 
 
 class GetUserAPI(Resource):

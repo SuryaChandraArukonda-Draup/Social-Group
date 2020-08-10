@@ -4,9 +4,9 @@ from flask_restful import Resource
 from bson import ObjectId
 from datetime import datetime
 from auth.auth import auth
-from constants.constants import A, MD
+from constants.constants import A, MD, M
 from que_task.que import printhello
-from mail.mail import send_email
+from mail.mails import send_mail
 from config.config import queue
 
 
@@ -29,16 +29,22 @@ class PostAPI(Resource):     # body : { "content" : "post"}
             # group id is a reference field and rf only takes object id.
             # convert object id to string with str when required
             post_id = post.id
+            recipients = []
             # update last active status for user
             temp_dict = group.last_active_dict
             temp_dict[user_id] = datetime.now()
             group.update(set__last_active_dict=temp_dict)
 
-            '''
-            content = "{name} wants to put a post, please accept his request!".format(name=user.username)
-            queue.enqueue(printhello())  # this is just a check that q works
-            queue.enqueue(send_email, user.email, content)
-            '''
+            for x in group.role_dict:
+                if group.role_dict[x] == A or group.role_dict[x] == MD:
+                    u = User.objects.get(id=x)
+                    if u:
+                        recipients.append(u.email)
+
+            if group.role_dict[user_id] == M:
+                content = "{name} wants to put a post, please accept his request!".format(name=user.username)
+                queue.enqueue(printhello())  # this is just a check that q works
+                queue.enqueue(send_mail, recipients, content)
 
             return {'post_id': str(post_id)}, 200
         else:

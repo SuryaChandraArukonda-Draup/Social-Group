@@ -5,7 +5,7 @@ import datetime
 class User(db.Document):
     username = db.StringField(required=True, max_length=20)
     password = db.StringField(required=True, max_length=100)
-    email = db.StringField(required=True, unique=True)
+    email = db.StringField(required=True)  # , unique=True
 
 
 class Group(db.Document):

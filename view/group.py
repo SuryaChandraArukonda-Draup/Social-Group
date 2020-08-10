@@ -94,7 +94,7 @@ class ReadGroupAPI(Resource):
     @auth.login_required
     def get(self, gid):
         user = request.authorization  # this gives dict
-        uid = User.objects.get(name=user['username'])  # this gives user object
+        uid = User.objects.get(username=user['username'])  # this gives user object
         user_id = str(uid.id)  # this gives the user id in string format
         group = Group.objects.get(id=gid)
 
@@ -113,7 +113,7 @@ class GetGroupAPI(Resource):
     @auth.login_required
     def get(self, gid):
         user = request.authorization
-        uid = User.objects.get(name=user['username'])
+        uid = User.objects.get(username=user['username'])
         uid = str(uid.id)
         try:
             group = Group.objects.get(id=gid)
@@ -126,21 +126,21 @@ class GetGroupAPI(Resource):
             return exception
 
 
-class ChangeRoleApi(Resource):
+class ChangeRoleAPI(Resource):
     # only admin can change role
     @auth.login_required
     def put(self, gid):
 
-        # body contains dict of person whose role is changed {"user id":"new role"}
+        # body contains dict of person whose role is changed { "change_role" : {"user id":"new role"}}
         user = request.authorization
-        uid = User.objects.get(name=user['username'])
+        uid = User.objects.get(username=user['username'])
         uid = str(uid.id)
 
         body = request.get_json()
 
         group = Group.objects(id=gid).get()
         try:
-            if group.role_dict[uid] == A:
+            if group.role_dict[uid] == A or group.role_dict[uid] == MD:
                 role_dict = group.role_dict
                 role_dict.update(body['change_role'])
                 group.update(set__role_dict=role_dict)

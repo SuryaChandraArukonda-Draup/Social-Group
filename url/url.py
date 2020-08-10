@@ -1,5 +1,5 @@
 from view.user import SignUpAPI, GetUserAPI, DeleteUserAPI, EditUserAPI
-from view.group import GroupAPI, AddToGroupAPI, RemoveUserGroupAPI, ReadGroupAPI, GetGroupAPI, DeleteGroupAPI, EditGroupAPI
+from view.group import GroupAPI, AddToGroupAPI, RemoveUserGroupAPI, ReadGroupAPI, GetGroupAPI, DeleteGroupAPI, EditGroupAPI, ChangeRoleAPI
 from view.post import PostAPI, DeletePostAPI, GetPostAPI, EditPostAPI
 from view.comment import CommentAPI, DeleteCommentAPI, GetCommentAPI, EditCommentAPI
 
@@ -9,6 +9,8 @@ def initialize_routes(api):
     api.add_resource(GroupAPI, '/api/group/create')
 
     api.add_resource(AddToGroupAPI, '/api/group/<gid>/add')
+
+    api.add_resource(ChangeRoleAPI, '/api/group/<gid>/changerole')
 
     api.add_resource(EditGroupAPI, '/api/group/<gid>/edit')
     api.add_resource(EditUserAPI, '/api/user/edit')
