@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from models.models import Group, SaveLogs
 from mongoengine import connect
-from constants.constants import A
+from constants.constants import A, MD, S
 
 
 def inactive_users():
-    connect("SocialGroup")
+    connect(S)
     print('Scheduler working')
 
     present_time = datetime.now()
@@ -17,7 +17,7 @@ def inactive_users():
         temp_last_active_dict.update(group.last_active_dict)
         message_list = []
         for user_id, last_active in group.last_active_dict.items():
-            if last_active < present_time - timedelta(minutes=1) and group.role_dict[user_id] != A:
+            if last_active < present_time - timedelta(minutes=1) and group.role_dict[user_id] != A and group.role_dict[user_id] != MD:
                 message = "{name} got deleted due to inactivity".format(name=user_id)
                 message_list.append(message)
 

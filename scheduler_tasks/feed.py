@@ -4,7 +4,7 @@ from rq import Queue
 from redis import Redis
 from models.models import Group, Post, User
 from mail.mails import send_mail
-from constants.constants import A, MD
+from constants.constants import A, MD, S
 
 sch_queue = Queue('test', connection=Redis())
 
@@ -12,7 +12,7 @@ sch_queue = Queue('test', connection=Redis())
 def dailyfeed():
     # time now is given such that its mid night
 
-    connect("SocialGroup")
+    connect(S)
     print("working")
 
     time_now = datetime.now()

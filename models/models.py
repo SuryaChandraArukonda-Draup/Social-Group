@@ -20,7 +20,6 @@ class Post(db.Document):
     user_id = db.ReferenceField('User')
     group_id = db.ReferenceField('Group')
     content = db.StringField(required=True, max_length=200)
-    # approval is set to true for now
     approval = db.StringField(Default=False, max_length=10)
     date_created = db.DateTimeField(default=datetime.datetime.now())
 
@@ -30,11 +29,6 @@ class Comment(db.Document):
     post_id = db.ReferenceField('Post')
     content = db.StringField(required=True, max_length=75)
     date_created = db.DateTimeField(default=datetime.datetime.now())
-
-
-class DeletedUsers(db.Document):
-    group_id = db.ReferenceField('Group')
-    deleted_user_ids = db.StringField()
 
 
 class SaveLogs(db.Document):

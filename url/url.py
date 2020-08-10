@@ -10,7 +10,7 @@ def initialize_routes(api):
 
     api.add_resource(AddToGroupAPI, '/api/group/<gid>/add')
 
-    api.add_resource(ChangeRoleAPI, '/api/group/<gid>/changerole')
+    api.add_resource(ChangeRoleAPI, '/api/group/<gid>/change_role')
 
     api.add_resource(EditGroupAPI, '/api/group/<gid>/edit')
     api.add_resource(EditUserAPI, '/api/user/edit')

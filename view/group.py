@@ -1,5 +1,5 @@
 from flask import request, Response
-from models.models import Group, Post, User, DeletedUsers
+from models.models import Group, Post, User
 from flask_restful import Resource
 from datetime import datetime
 from auth.auth import auth
@@ -69,7 +69,6 @@ class RemoveUserGroupAPI(Resource):
         try:
             if group.role_dict[uid] == A:
                 del_user = body['del_user_id']
-                # DeletedUsers(group_id=gid, deleted_user_ids=body['del_user_id']).save()
                 role_dict = group.role_dict
                 last_active_dict = group.last_active_dict
                 for key in list(role_dict):
