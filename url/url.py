@@ -1,5 +1,6 @@
-from view.user import SignUpAPI, GetUserAPI, DeleteUserAPI, EditUserAPI
-from view.group import GroupAPI, AddToGroupAPI, RemoveUserGroupAPI, ReadGroupAPI, GetGroupAPI, DeleteGroupAPI, EditGroupAPI, ChangeRoleAPI
+from view.user import SignUpAPI, DeleteUserAPI, EditUserAPI, GetAllUserApi, GetUserApi  # GetUserAPI
+from view.group import GroupAPI, AddToGroupAPI, RemoveUserGroupAPI, ReadGroupAPI, GetGroupAPI, DeleteGroupAPI, \
+    EditGroupAPI, ChangeRoleAPI
 from view.post import PostAPI, DeletePostAPI, GetPostAPI, EditPostAPI, ApprovePostAPI, ReadPostAPI
 from view.comment import CommentAPI, DeleteCommentAPI, GetCommentAPI, EditCommentAPI
 
@@ -28,7 +29,7 @@ def initialize_routes(api):
     api.add_resource(GetGroupAPI, '/api/group/<gid>')  # get the group by id
     api.add_resource(GetPostAPI, '/api/group/<gid>/post/<pid>')  # get the post by id
     api.add_resource(GetCommentAPI, '/api/group/<gid>/comment/<cid>')  # get the comment by id
-    api.add_resource(GetUserAPI, '/api/user')  # get the group by id
+    # api.add_resource(GetUserAPI, '/api/user')  # get the group by id
 
     api.add_resource(RemoveUserGroupAPI, '/api/group/<gid>/remove')
 
@@ -36,3 +37,7 @@ def initialize_routes(api):
     api.add_resource(ReadPostAPI, '/api/group/<gid>/post/<pid>/read')
 
     api.add_resource(ApprovePostAPI, '/api/group/<gid>/post/<pid>/approve')
+
+    api.add_resource(GetAllUserApi, '/api/user/<page_no>')
+
+    api.add_resource(GetUserApi, '/api/user/get')

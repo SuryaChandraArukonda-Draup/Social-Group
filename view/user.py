@@ -1,8 +1,12 @@
 from flask import request, Response
-from models.models import User
+from models.models import User, SudoUser
 from flask_restful import Resource
 from werkzeug.security import generate_password_hash
 from auth.auth import auth
+from flask_mongoengine import Pagination
+import json
+import celery
+from mail.mail import send_mail
 
 
 # create user
@@ -20,13 +24,13 @@ class SignUpAPI(Resource):  # body : { "username" : "surya", "password" : "chand
             return "username and email should be unique, try again", 500
 
 
-class GetUserAPI(Resource):
+'''class GetUserAPI(Resource):
     @auth.login_required
     def get(self):
         user = request.authorization
         uid = User.objects(name=user['username']).to_json()
 
-        return Response(uid, mimetype="application/json", status=200)
+        return Response(uid, mimetype="application/json", status=200)'''
 
 
 class DeleteUserAPI(Resource):
@@ -64,4 +68,34 @@ class EditUserAPI(Resource):
             return "You don't belong to this database", 200
 
 
+class GetAllUserApi(Resource):
+    @auth.login_required
+    def get(self, page_no):
+        users = User.objects()
+        # The pagination method returns non json pagination object
+        users = Pagination(users, page=int(page_no), per_page=2)
 
+        # this gives list of user object
+        users = users.items
+        # using marshmallow to serialize
+        obj = SudoUser(many=True)
+        users = obj.dump(users)
+        # using dumps to convert to json object
+        users = json.dumps(users)
+        # print(users)
+        return Response(users, mimetype="application/json", status=200)
+
+
+class GetUserApi(Resource):
+    @auth.login_required
+    @celery.task
+    def get(self):
+        user = request.authorization
+        uid = User.objects(username=user['username']).to_json()
+        user = User.objects.get(username=user['username'])
+        # testing celery by sending a mail asynchronously
+        content = "celery test mail"
+        subject = "celery test"
+        # task = send_mail.delay(content,[user.email],subject)
+        task = send_mail.apply_async(args=[content, user.email, subject], countdown=60)
+        return Response(uid, mimetype="application/json", status=200)

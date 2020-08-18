@@ -1,32 +1,3 @@
-'''from flask import Flask, flash, render_template, request, redirect, url_for
-from flask_mail import Mail
-from config.config import initialize_db
-from flask_restful import Api
-from url.url import initialize_routes
-
-
-app = Flask(__name__)
-api = Api(app)
-mail = Mail(app)
-
-app.config['MONGODB_SETTINGS'] = {
-    'host': 'mongodb://localhost/SocialGroup'
-}
-
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
-
-app.config['CELERY_IMPORTS'] = 'mail.mail'
-
-
-
-initialize_db(app)
-initialize_routes(api)
-
-
-app.run(debug=True)'''
-
 from celery import Celery
 from flask import Flask
 from redis import Redis
@@ -88,7 +59,7 @@ celery.conf.update(
 
 
 # celery -A config.celery worker
-# celery -A app.celery worker
+
 db = MongoEngine()
 
 
@@ -100,5 +71,3 @@ initialize_db(app)
 initialize_routes(api)
 
 app.run(debug=True)
-
-

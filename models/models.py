@@ -1,5 +1,6 @@
 from config.config import db
 import datetime
+from marshmallow import Schema, fields
 
 
 class User(db.Document):
@@ -20,7 +21,7 @@ class Post(db.Document):
     user_id = db.ReferenceField('User')
     group_id = db.ReferenceField('Group')
     content = db.StringField(required=True, max_length=200)
-    approval = db.StringField(Default=False, max_length=10)
+    approval = db.StringField(Default=False, required=True, max_length=10)
     date_created = db.DateTimeField(default=datetime.datetime.now())
 
 
@@ -34,6 +35,12 @@ class Comment(db.Document):
 class SaveLogs(db.Document):
     group_id = db.ReferenceField('Group')
     message = db.ListField(db.StringField())
+
+
+class SudoUser(Schema):
+    name = fields.Str()
+    password = fields.Str()
+    email = fields.Str()
 
 
 

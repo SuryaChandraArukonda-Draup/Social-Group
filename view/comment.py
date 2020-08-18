@@ -3,7 +3,7 @@ from models.models import User, Group, Comment, Post
 from flask_restful import Resource
 from bson import ObjectId
 from datetime import datetime
-from mail.mail import send_email
+from mail.mail import send_mail
 from config.config import queue
 from auth.auth import auth
 from que_task.que import printhello
@@ -34,7 +34,7 @@ class CommentAPI(Resource):  # body contains { "content" : "comment"}
                 group.update(set__last_active_dict=temp_dict)
                 content = "{name} has posted a comment today".format(name=user.username)
                 queue.enqueue(printhello())  # this is just a check that q works
-                queue.enqueue(send_email, user.email, content)
+                queue.enqueue(send_mail, user.email, content)
                 # queue.enqueue(send_email(user.email, content))
                 # send_email(user.email, content)
                 return {'comment_id': str(comment.id)}, 200
